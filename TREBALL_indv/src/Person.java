@@ -1,7 +1,7 @@
 
 public class Person {
 
-        public int LastID=0;// no se com fer que sigui general
+        public static int LastID=0;// no se com fer que sigui general
         /*Atributs*/
 
         private String name;
