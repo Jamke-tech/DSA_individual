@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title> GITHUB INFO </title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+
+<div class="container-fluid">
+    <h1>GITHUB INFO </h1>
+    <h2>Descubre los mas profundos secretos de tus contactos de GITHUB</h2>
+    <form>
+        <div class="form-group">
+            <label for="usr">Para descubrir primero tienes que decir el nombre de tu siguiente víctima: </label>
+            <input type="text" class="form-control" id="usr">
+        <button type="button" class="btn btn-default Blue" id="findVict">Buscar a la víctima</button>
+            <div class="row">
+                <h3 id="hname">Aún no tenemos victima señor:</h3>
+                <div class="col-sm-6">
+                    <p id="vNames">Sin nombre</p>
+                </div>
+                <div class="col-sm-6">
+                    <button type="button" class="btn " id="Accept">Buscar informacion de víctima</button>
+                </div>
+
+            </div>
+        </div>
+    </form>
+</div>
+<div class="container">
+    <h2 id="Ttitulo">Tabla con los datos mas oscuros de tu victima</h2>
+    <table class="table" id="Tvictima">
+        <thead>
+        <tr><th>Nombre</th>
+            <th>Localización</th>
+            <th>Numero de Seguidores</th>
+            <th>Bio</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td id="Tname">-</td>
+                <td id="Tloc">-</td>
+                <td id="Tfollowers">-</td>
+                <td id="Tbio">-</td>
+            </tr>
+        </tbody>
+    </table>
+    <script>
+        $("#Tvictima").hide();
+        $("#Ttitulo").hide();
+    </script>
+
+</div>
+
+</body>
+
+<script>
+var ContVictimas = 0;
+var victima;
+$(document).ready(function(){
+    $("#findVict").click(function(){
+        victima = $("#usr").val();
+        ContVictimas++;
+        $("#hname").text("Nuestra víctima " + ContVictimas + " sera:");
+        $("#vNames").text(victima);
+        $("#vNames").show();
+    });
+});
+
+$(document).ready(function () {
+    var FullUrl = 'https://api.github.com/users/'+victima;
+    $("#Accept").click(function(){
+           $.get( FullUrl, function( data ) {
+                alert( "Data Loaded");
+                var name= data.name;
+                var Loc= data.location;
+                var Followers= data.followers;
+                var Bio= data.bio;
+                $('#Tname').text(name);
+                $('#Tloc').text(Loc);
+                $('#Tfollowers').text(Followers);
+                $('#Tbio').text(Bio);
+                $("#Tvictima").show();
+                $("#Ttitulo").show();
+           });
+           
+    });
+
+});
+</script>
+
+
+
+
+
+
+</html>
