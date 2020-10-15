@@ -19,7 +19,7 @@
         <div class="form-group">
             <label for="usr">Para descubrir primero tienes que decir el nombre de tu siguiente víctima: </label>
             <input type="text" class="form-control" id="usr">
-        <button type="button" class="btn btn-default Blue" id="findVict">Buscar a la víctima</button>
+            <button type="button" class="btn btn-default Blue" id="findVict">Buscar a la víctima</button>
             <div class="row">
                 <h3 id="hname">Aún no tenemos victima señor:</h3>
                 <div class="col-sm-6">
@@ -33,29 +33,80 @@
         </div>
     </form>
 </div>
+
 <div class="container">
     <h2 id="Ttitulo">Tabla con los datos mas oscuros de tu victima</h2>
     <table class="table" id="Tvictima">
         <thead>
-        <tr><th>Nombre</th>
+        <tr>
+            <th>Nombre</th>
             <th>Localización</th>
             <th>Numero de Seguidores</th>
             <th>Bio</th>
         </tr>
         </thead>
         <tbody>
-            <tr>
-                <td id="Tname">-</td>
-                <td id="Tloc">-</td>
-                <td id="Tfollowers">-</td>
-                <td id="Tbio">-</td>
-            </tr>
+        <tr>
+            <td id="Tname">-</td>
+            <td id="Tloc">-</td>
+            <td id="Tfollowers">-</td>
+            <td id="Tbio">-</td>
+        </tr>
         </tbody>
     </table>
     <script>
         $("#Tvictima").hide();
         $("#Ttitulo").hide();
+     </script>
+
+</div>
+
+<div class="container">
+    <h2 id="Trep">Tabla de Repositorios</h2>
+    <table class="table" id="Trepinfo">
+        <thead>
+        <tr>
+            <th>Nombre del repositorio</th>
+            <th>Descripción del repositorio</th>
+            <th>Numero de Seguidores</th>
+        </tr>
+        </thead>
+        <tbody id="Rvalues">
+
+        </tbody>
+    </table>
+    <script>
+        $("#Trep").hide();
+        $("#Trepinfo").hide();
+        $(document).ready(function () {
+            $("#Accept").click(function(){
+                $('#Rvalues').empty();
+                victima = $("#usr").val();
+                var FullUrl = 'https://api.github.com/users/'+victima+'/repos';
+                   $.get( FullUrl, function( data ) {
+                        for(i=0;i<data.length;i++){
+                            $('#Rvalues').append('<tr>');
+
+                            $('#Rvalues').append('<td>' +data[i].name +'</td>' );
+
+                            if (data[i].description==null){
+                                $('#Rvalues').append('<td>---</td>' );}
+                            else{
+                                $('#Rvalues').append('<td>' +data[i].description +'</td>' );
+                            }
+
+                            $('#Rvalues').append('<td>' +data[i].watchers +'</td>' );
+
+                            $('#Rvalues').append('</tr>');
+                        }
+
+                   });
+                $("#Trep").show();
+                $("#Trepinfo").show();
+            });
+        });
     </script>
+
 
 </div>
 
@@ -73,32 +124,46 @@ $(document).ready(function(){
         $("#vNames").show();
     });
 });
-
 $(document).ready(function () {
-    var FullUrl = 'https://api.github.com/users/'+victima;
     $("#Accept").click(function(){
+        victima = $("#usr").val();
+        var FullUrl = 'https://api.github.com/users/'+victima;
            $.get( FullUrl, function( data ) {
-                alert( "Data Loaded");
                 var name= data.name;
                 var Loc= data.location;
                 var Followers= data.followers;
                 var Bio= data.bio;
-                $('#Tname').text(name);
-                $('#Tloc').text(Loc);
+                if(name==null){
+                    $('#Tname').text('---');
+                }else{
+                    $('#Tname').text(name);
+                }
+
+                if(Loc==null){
+                    $('#Tloc').text('---');
+                }else{
+                    $('#Tloc').text(Loc);
+                }
+
+                if(Bio==null){
+                    $('#Tbio').text('---');
+                }else{
+                    $('#Tbio').text(Bio);
+                }
+                
                 $('#Tfollowers').text(Followers);
-                $('#Tbio').text(Bio);
                 $("#Tvictima").show();
                 $("#Ttitulo").show();
+
            });
-           
+
     });
-
 });
+
+
+
+
 </script>
-
-
-
-
 
 
 </html>
