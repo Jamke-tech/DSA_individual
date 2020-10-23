@@ -10,7 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="Cues" target="1.5" />
+      <module name="Cues" target="8" />
     </bytecodeTargetLevel>
   </component>
 </project>
